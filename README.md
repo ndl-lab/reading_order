@@ -1,6 +1,9 @@
 # ReadingOrder
 読み上げ順序推定モジュールのリポジトリです。
+
 本プログラムは、国立国会図書館が株式会社モルフォAIソリューションズに委託して作成したものです。
+
+
 本プログラムは、国立国会図書館がCC BY 4.0ライセンスで公開するものです。詳細については LICENSEをご覧ください。
 
 This is a repository for the reading order estimation module. This program was created by Morpho AI Solutions, Inc. under contract from the National Diet Library. The program is released by the National Diet Library under the CC BY 4.0 license. For details, please see the LICENSE file.
