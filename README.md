@@ -7,8 +7,6 @@ NDLOCR(ver.2.1)用の読み上げ順序推定モジュールのリポジトリ�
 
 本プログラムは、国立国会図書館がCC BY 4.0ライセンスで公開するものです。詳細については LICENSEをご覧ください。
 
-This is a repository for the reading order estimation module. This program was created by Morpho AI Solutions, Inc. under contract from the National Diet Library. The program is released by the National Diet Library under the CC BY 4.0 license. For details, please see the LICENSE file.
-
 ## Installation
   
 To install the program, first navigate to the cloned directory and install the required packages. It is recommended that you create an appropriate environment using venv or conda before proceeding with the installation process.
