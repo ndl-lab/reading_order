@@ -1,7 +1,7 @@
 # ReadingOrder(NDLOCR ver.2.1用)
 NDLOCR(ver.2.1)用の読み上げ順序推定モジュールのリポジトリです。
 
-本プログラムは、国立国会図書館が株式会社モルフォAIソリューションズに委託して作成した[ver.2.0](dummuy)に対して、国立国会図書館が更に改善を行ったプログラムです。
+本プログラムは、令和4年度NDLOCR追加開発事業の成果物である[ver.2.0](https://github.com/ndl-lab/ndlocr_cli/tree/ver.2.0)に対して、国立国会図書館が改善作業を行ったプログラムです。
 
 事業の詳細については、[令和4年度NDLOCR追加開発事業及び同事業成果に対する改善作業](https://lab.ndl.go.jp/data_set/r4ocr/r4_software/)をご覧ください。
 
