@@ -1,4 +1,4 @@
-# reading_order(NDLOCR ver.2.0用)
+# reading_order(NDLOCR(ver.2.0)用読み順推定モジュール)
 NDLOCR(ver.2.0)用の読み上げ順序推定モジュールのリポジトリです。
 
 本プログラムは、全文検索用途のテキスト化のために開発した[ver.1](https://github.com/ndl-lab/ndlocr_cli/tree/ver.1)に対して、視覚障害者等の読み上げ用途にも利用できるよう、国立国会図書館が外部委託して追加開発したプログラムです（委託業者：株式会社モルフォAIソリューションズ）。
