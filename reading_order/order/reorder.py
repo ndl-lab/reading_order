@@ -13,73 +13,11 @@ from reading_order.order.smooth_order import smooth_order
 from reading_order.order.warichu_block import GroupWarichu
 
 
-def check_iou(a, b):
-    """
-    a: [xmin, ymin, xmax, ymax]
-    b: [xmin, ymin, xmax, ymax]
-
-    return: array(iou)
-    """
-    b = np.asarray(b)
-    a_area = (a[  2] - a[  0]) * (a[  3] - a[  1])
-    b_area = (b[  2] - b[  0]) * (b[  3] - b[  1])
-    intersection_xmin = np.maximum(a[0], b[0])
-    intersection_ymin = np.maximum(a[1], b[1])
-    intersection_xmax = np.minimum(a[2], b[2])
-    intersection_ymax = np.minimum(a[3], b[3])
-    intersection_w = np.maximum(0, intersection_xmax - intersection_xmin)
-    intersection_h = np.maximum(0, intersection_ymax - intersection_ymin)
-    intersection_area = intersection_w * intersection_h
-    min_area=min(a_area,b_area)
-    #print(intersection_area/min_area)
-    if intersection_area/min_area>0.9:
-        return True
-    return False
-
-def check_dup(aconf,bconf):
-    if check_iou(aconf[:4],bconf[:4]):
-        if aconf[-1]>=bconf[-1]:
-            return 1
-        else:
-            return 2
-    return 0
-
-def remove_dup(childrenlist):
-    lines=list()
-    complines = list()
-    for element in childrenlist:
-        if "LINE"==element.tag:
-            w = float(element.get("WIDTH", -1))
-            h = float(element.get("HEIGHT", -1))
-            conf = float(element.get("CONF", -1))
-            x = float(element.get("X", -1))
-            y = float(element.get("Y", -1))
-            checkdupval=0
-            if len(lines)!=0 and lines[-1].tag=="LINE":
-                checkdupval=check_dup(complines[-1],[x,y,x+w,y+h,conf])
-            if checkdupval==0:#重複なし
-                lines.append(element)
-                complines.append([x,y,x+w,y+h,conf])
-            elif checkdupval==1:#重複あり （今見ているlineをスキップ）
-                continue
-            elif checkdupval==2:#重複あり（比較対象を削除）
-                del lines[-1]
-                del complines[-1]
-                lines.append(element)
-                complines.append([x,y,x+w,y+h,conf])
-            else:
-                print("error!")
-        else:
-            lines.append(element)
-    return lines
-
-
-
 def sort_lines_local(root):
     """
     Sorts LINE tags that exist directly under the `root`. This sorting is based
     on the coordinates of the LINE tag and ignores their ORDER. The tag of
-    `root` can be anytGhing, but now I am considering of either TEXTBLOCK or
+    `root` can be anything, but now I am considering of either TEXTBLOCK or
     WARICHUBLOCK.
     """
 
@@ -88,6 +26,7 @@ def sort_lines_local(root):
     lines = list()
     not_lines = list()
     widths, heights = list(), list()
+
     for element in root:
         if element.tag in ["LINE", "WARICHUBLOCK"]:
             w = float(element.get("WIDTH", -1))
@@ -96,6 +35,7 @@ def sort_lines_local(root):
             num_lines += 1
             widths.append(w)
             heights.append(h)
+
             x = float(element.get("X", -1))
             y = float(element.get("Y", -1))
             order = float(element.get("ORDER", np.nan))
@@ -136,8 +76,7 @@ def sort_lines_local(root):
     lines = sorted(lines, key=functools.cmp_to_key(
         cmp_v if is_vertical else cmp_h))
     sorted_lines = [line for _, _, _, line in lines]
-    if len(sorted_lines)>0:
-        sorted_lines =remove_dup(sorted_lines)
+
     # Calc median.
     valid_orders = [order for _, _, order, _ in lines if not np.isnan(order)]
     median = sorted(valid_orders)[
@@ -192,19 +131,11 @@ def sort_lines(root, smoothing=True):
                 unsorted.append(element)
         sorted_children = sorted(tobe_sorted, key=lambda x: x[0])
         sorted_children = [obj for _, obj in sorted_children]
-        if len(sorted_children)>0:
-            sorted_children =remove_dup(sorted_children)
         page_or_block[:] = sorted_children + unsorted
 
     # To check that the number of tags does not change by sorting.
-    """
     with ConstantNumberOfTags(root):
         with GroupWarichu(root):
             traverse(root)
         if smoothing:
             smooth_order(root)
-    """
-    with GroupWarichu(root):
-        traverse(root)
-    if smoothing:
-        smooth_order(root)
