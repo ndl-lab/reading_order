@@ -48,14 +48,14 @@ def remove_dup(childrenlist):
     lines=list()
     complines = list()
     for element in childrenlist:
-        if "LINE"==element.tag:
+        if element.tag in ["LINE", "WARICHUBLOCK"]:
             w = float(element.get("WIDTH", -1))
             h = float(element.get("HEIGHT", -1))
             conf = float(element.get("CONF", -1))
             x = float(element.get("X", -1))
             y = float(element.get("Y", -1))
             checkdupval=0
-            if len(lines)!=0 and lines[-1].tag=="LINE":
+            if len(lines)!=0 and lines[-1].tag in ["LINE", "WARICHUBLOCK"]:
                 checkdupval=check_dup(complines[-1],[x,y,x+w,y+h,conf])
             if checkdupval==0:#重複なし
                 lines.append(element)
